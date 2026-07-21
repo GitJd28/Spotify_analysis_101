@@ -26,11 +26,92 @@ df = pd.read_csv(csv_path, encoding='latin1')
 # 5. View the first few rows
 df.head()
 
+"""# **Getting to know the dataset**
+
+
+
+"""
+
 df.info()
 
 print(df.shape)
 print(df.size )
 
-# Artists who have released most no. of songs.
-df['artist(s)_name'].value_counts().head(5)
+#The percentage of missing values col wise
+df.isnull().sum()
 
+"""# **Artist Impact Analyze how artist involvement and attributes relate to a song's success.**"""
+
+# Artists who have released most no. of songs.
+df['artist(s)_name'].value_counts().head(10)
+
+#When do you include a song in your playlist ? when you like it , hence here through this in_spotify_playlists we can find which song and who's song has been included the most number of time ins the playlist.
+# cols needed : in_spotify_playlists	, 	track_name	 , artist(s)_name	 ; nlargest
+# Select the columns, sort by the playlist count, and get the top 5
+df[["track_name", "artist(s)_name", "in_spotify_playlists"]].sort_values(
+    by="in_spotify_playlists", ascending=False
+).head(10)
+
+# Get the top 10 rows with the highest playlist count
+df.nlargest(10, "in_spotify_playlists")[["track_name", "artist(s)_name" , "released_year"]]
+
+"""Addded a new col released_date by combining the released_day , released_month and released_year to get all the 3 of them at once."""
+
+df['released_date'] =( df['released_day'].astype(str) + '/'+ df['released_month'].astype(str) +'/'+ df['released_year'].astype(str) )
+
+"""Change the dtype of streams from object to int64 for calculation."""
+
+#force convert streams from objcet to numeric
+df['streams']= pd.to_numeric(df['streams'] , errors='coerce')
+
+# Fill any blank NaN rows with 0 so it can be cleanly changed into a whole number
+df['streams']= df['streams'].fillna(0)
+
+#convert it to a true int64
+df['streams'] = df['streams'].astype('int64')
+
+print(df['streams'].dtype)
+
+"""# **Spotify wrapped**
+
+**Top songs of 2023**
+"""
+
+df[df['released_year']==2023][['track_name' ,'streams', 'released_date']].sort_values( by="streams" , ascending=False).head(10)
+
+"""**Artist of the year**"""
+
+df.groupby('artist(s)_name')['streams'].sum().sort_values(ascending=False).head(10)
+
+"""**Best *collab* of 2023**
+
+"""
+
+# artist count =2
+df[(df['released_year']==2023) & (df['artist_count']==2)][['artist(s)_name','streams']].sort_values(by="streams", ascending=False).head(5)
+
+"""**Dance party favourite**"""
+
+#create a col party_score = danceability_%	+ valence_%	+  energy_%
+# cols I would need to display : artist_name , track , and it's party score
+
+#create a new col called party_score made by combining the below 2 cols.
+df['party_score'] = ( df['danceability_%'] + df['energy_%'])
+
+#Filtering , keeping only the rows that satisfy BOTH the conditions and genuine party songs are considered.
+party = df[ (df['danceability_%'] > 85 ) & ( df['energy_%'] > 85) ]
+
+party.nlargest(10, ('party_score'))[['artist(s)_name' , 'track_name' , 'party_score']]
+
+"""**Workout favourites!**"""
+
+workout = df[ (df['energy_%'] > 90 )]
+workout.nlargest(10, ('energy_%'))[ ['artist(s)_name' , 'track_name']]
+
+"""**Most romantic songs**"""
+
+#romantic vibes
+romance=  df[ (df['valence_%'] >85 ) & (df['energy_%'] <55)]
+romance.nlargest(10,(['energy_%' , 'valence_%']) )[['artist(s)_name' , 'track_name']]
+
+"""# **Monthly analysis**"""
