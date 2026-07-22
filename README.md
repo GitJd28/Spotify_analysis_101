@@ -27,6 +27,36 @@ spotify-analysis/
 ```
 
 
+## 🗂️ Project Roadmap
+
+### ✅ Phase 1 — Exploratory Data Analysis (EDA)
+
+- [ ] Dataset Overview
+- [ ] Data Cleaning
+- [ ] Feature Engineering
+- [ ] Spotify Wrapped-style Insights
+- [ ] Visualizations
+
+---
+
+### ⏳ Phase 2 — Statistical Analysis
+
+- [ ] Correlation Analysis
+- [ ] Hypothesis Testing
+- [ ] Outlier Detection
+- [ ] Feature Relationship Analysis
+
+---
+
+### ⏳ Phase 3 — Machine Learning
+
+- [ ] K-Means Clustering
+- [ ] Stream Prediction (Random Forest / XGBoost)
+- [ ] Feature Importance Analysis
+- [ ] Song Recommendation System
+
+---
+
 ## Future Improvements
 
 * Add visualizations and dashboards.
