@@ -31,9 +31,9 @@ spotify-analysis/
 
 ### ✅ Phase 1 — Exploratory Data Analysis (EDA)
 
-- [ ] Dataset Overview
-- [ ] Data Cleaning
-- [ ] Feature Engineering
+- [X] Dataset Overview
+- [X] Data Cleaning
+- [X] Feature Engineering
 - [ ] Spotify Wrapped-style Insights
 - [ ] Visualizations
 
