@@ -88,7 +88,7 @@ df.groupby('artist(s)_name')['streams'].sum().sort_values(ascending=False).head(
 """
 
 # artist count =2
-df[(df['released_year']==2023) & (df['artist_count']==2)][['artist(s)_name','streams']].sort_values(by="streams", ascending=False).head(5)
+df[(df['released_year']==2023) & (df['artist_count']>=2)][['artist(s)_name','streams']].sort_values(by="streams", ascending=False).head(5)
 
 """**Dance party favourite**"""
 
@@ -114,4 +114,24 @@ workout.nlargest(10, ('energy_%'))[ ['artist(s)_name' , 'track_name']]
 romance=  df[ (df['valence_%'] >85 ) & (df['energy_%'] <55)]
 romance.nlargest(10,(['energy_%' , 'valence_%']) )[['artist(s)_name' , 'track_name']]
 
-"""# **Monthly analysis**"""
+"""# **Monthly analysis**
+
+**Monthly releases**
+"""
+
+#Number of releases in each month
+monthly_releases = df.groupby('released_month').size()
+monthly_releases
+
+import matplotlib.pyplot as plt
+
+month_releases_g = df.released_month.value_counts()
+plt.bar(month_releases_g.index , month_releases_g, color="purple")
+plt.xticks(range(1,13))
+plt.ylabel('Number of releases')
+plt.xlabel('Month')
+plt.title('Songs released in each month')
+plt.show()
+
+#which month has the highest streams
+df.groupby('released_month')['streams'].sum().sort_values(ascending=False)
