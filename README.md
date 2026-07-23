@@ -1,4 +1,4 @@
-# 🎵 Spotify Most Streamed Songs of 2023 Analysis
+# 🎵 Spotify Analysis 101
 
 ## Overview
 
