@@ -4,7 +4,7 @@ An exploratory data analysis of Spotify's most-streamed songs of 2023, built to 
 
 ## Why this project
 
-I wanted a dataset that was fun to poke at but still meaty enough to practice real EDA workflows on — cleaning messy columns, engineering new features, and asking questions that actually have answers hiding in the data. Music streaming data turned out to be perfect for that: everyone has an intuition about what makes a song a hit, and this was a chance to check those intuitions against the numbers.
+I wanted a dataset that was fun to poke at but still meaty enough to practice real EDA workflows on: cleaning messy columns, engineering new features, and asking questions that actually have answers hiding in the data. Music streaming data turned out to be perfect for that: everyone has an intuition about what makes a song a hit, and this was a chance to check those intuitions against the numbers.
 
 ## Dataset
 
