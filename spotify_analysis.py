@@ -26,11 +26,7 @@ df = pd.read_csv(csv_path, encoding='latin1')
 # 5. View the first few rows
 df.head()
 
-"""# **Getting to know the dataset**
-
-
-
-"""
+"""# **Dataset overview**"""
 
 df.info()
 
@@ -40,7 +36,7 @@ print(df.size )
 #The percentage of missing values col wise
 df.isnull().sum()
 
-"""# **Artist Impact Analyze how artist involvement and attributes relate to a song's success.**"""
+"""# **Data cleaning**"""
 
 # Artists who have released most no. of songs.
 df['artist(s)_name'].value_counts().head(10)
@@ -72,7 +68,7 @@ df['streams'] = df['streams'].astype('int64')
 
 print(df['streams'].dtype)
 
-"""# **Spotify wrapped**
+"""# **Feature Engineering**
 
 **Top songs of 2023**
 """
@@ -114,7 +110,7 @@ workout.nlargest(10, ('energy_%'))[ ['artist(s)_name' , 'track_name']]
 romance=  df[ (df['valence_%'] >85 ) & (df['energy_%'] <55)]
 romance.nlargest(10,(['energy_%' , 'valence_%']) )[['artist(s)_name' , 'track_name']]
 
-"""# **Monthly analysis**
+"""# **Monthly Trends**
 
 **Monthly releases**
 """
@@ -126,12 +122,63 @@ monthly_releases
 import matplotlib.pyplot as plt
 
 month_releases_g = df.released_month.value_counts()
-plt.bar(month_releases_g.index , month_releases_g, color="purple")
+plt.bar(month_releases_g.index , month_releases_g, color="green")
 plt.xticks(range(1,13))
 plt.ylabel('Number of releases')
 plt.xlabel('Month')
 plt.title('Songs released in each month')
 plt.show()
 
+"""**Monthly streams**"""
+
 #which month has the highest streams
 df.groupby('released_month')['streams'].sum().sort_values(ascending=False)
+
+month_stream = df.groupby('released_month')['streams'].sum()
+
+plt.bar(month_stream.index , month_stream, color="green")
+plt.xticks(range(1,13))
+plt.ylabel('No. of streams')
+plt.xlabel('Month')
+plt.title('Monthly streams ')
+plt.show()
+
+#most successful release month
+import seaborn as sns
+
+month_stats = df.groupby('released_month').agg(
+    releases=('track_name', 'count'),
+    total_streams=('streams', 'sum'),
+    avg_streams=('streams', 'mean')
+).reset_index()
+
+fig, ax = plt.subplots(1, 2, figsize=(14,5))
+
+sns.barplot(data=month_stats, x='released_month', y='releases', ax=ax[0])
+ax[0].set_title('Number of Releases by Month')
+
+sns.barplot(data=month_stats, x='released_month', y='avg_streams', ax=ax[1])
+ax[1].set_title('Average Streams by Release Month')
+
+plt.show()
+
+
+
+"""# **Artist Analysis**"""
+
+
+
+"""# **Audio Feature analysis**"""
+
+
+
+"""# **Correlation Analysis**"""
+
+
+
+"""# **Key insights**"""
+
+
+
+"""# **Conclusion**"""
+
