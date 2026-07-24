@@ -46,7 +46,7 @@ spotify-analysis/
 - [x] Spotify Wrapped-style insights
 - [x] Monthly trend visualizations
 - [ ] Artist-level analysis
-- [ ] Audio feature analysis (danceability, energy, valence, acousticness, etc. in depth)
+- [X] Audio feature analysis (danceability, energy, valence, acousticness, etc. in depth)
 
 ---
 
