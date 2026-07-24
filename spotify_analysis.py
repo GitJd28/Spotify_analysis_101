@@ -10,6 +10,8 @@ Original file is located at
 import os
 import kagglehub
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 # 1. Download the dataset
 path = kagglehub.dataset_download("nelgiriyewithana/top-spotify-songs-2023")
@@ -35,6 +37,25 @@ print(df.size )
 
 #The percentage of missing values col wise
 df.isnull().sum()
+
+#check duplicate rows.
+df.duplicated().sum()
+
+#Total number of artists
+df['artist(s)_name'].nunique()
+
+#unique songs
+df['track_name'].nunique()
+
+df['track_name'].duplicated().sum()
+#we have 10 duplicate track names.
+
+#Release year distribution
+release_yr_dist = df.groupby('released_year').size()
+
+plt.bar(release_yr_dist.index , release_yr_dist)
+plt.title('Release year distribution')
+plt.show()
 
 """# **Data cleaning**"""
 
@@ -68,7 +89,62 @@ df['streams'] = df['streams'].astype('int64')
 
 print(df['streams'].dtype)
 
-"""# **Feature Engineering**
+#Find outliers
+#import numpy as np
+
+q1 = df['streams'].quantile(0.25)
+q3 = df['streams'].quantile(0.75)
+
+iqr= q3-q1
+
+lower_bound = q1 - 1.5*iqr
+upper_bound = q3 + 1.5*iqr
+
+outliers = df[ (df['streams']< lower_bound ) | (df['streams']> upper_bound )]
+print(f"No. of outliers =  {len(outliers)}" )
+
+sns.boxplot(df['streams'], color ="salmon")
+plt.title("Outliers of streams")
+plt.show()
+
+"""**Data Cleaning Summary**
+
+1. Added a new column, `released_date`, by combining the existing `released_year`, `released_month`, and `released_day` columns. Since these date components were previously separated, combining them was beneficial for analysis.
+
+2. The `streams` column, originally of type `object`, was converted to `int64` to facilitate calculations.
+
+3. Outliers in the `streams` column were identified and analyzed, as this column is crucial for recognizing patterns.
+
+# **Feature Engineering**
+
+bpm: Beats per minute, a measure of song tempo
+
+key: Key of the song (main group of pitches C,D,E,F,G etc)
+
+mode: Mode of the song (major or minor)
+
+danceability_%: Percentage indicating how suitable the song is for dancing
+
+valence_%: Positivity of the song's musical content
+
+energy_%: Perceived energy level of the song
+
+acousticness_%: Amount of acoustic sound in the song (acoustic-without electronic amplification)
+
+instrumentalness_%: Amount of instrumental content in the song
+
+liveness_%: Presence of live performance elements
+
+speechiness_%: Amount of spoken words in the song
+
+Based on the information above , different genre of music can be identified:
+
+1. Dance fav - danceabilty & energy
+2. Workout fav- high energy , high bpm
+3. romantic vibe - valence & energy
+4. chill - low energy , instrumental and acoustic
+5. sleep mode - low energy , less words ,low bpm
+6. electric - high energy , less acoustic ,high bpm
 
 **Top songs of 2023**
 """
@@ -110,6 +186,18 @@ workout.nlargest(10, ('energy_%'))[ ['artist(s)_name' , 'track_name']]
 romance=  df[ (df['valence_%'] >85 ) & (df['energy_%'] <55)]
 romance.nlargest(10,(['energy_%' , 'valence_%']) )[['artist(s)_name' , 'track_name']]
 
+"""**Chill vibes**"""
+
+chill = df[ (df['energy_%']<50) & (df['instrumentalness_%']>65) & (df['acousticness_%']>65)]
+top_chill = chill.sort_values(by = ['energy_%' , 'instrumentalness_%' , 'acousticness_%'] , ascending=[True , False , False]).head(10)[['artist(s)_name' , 'track_name']]
+print(top_chill)
+
+"""**Sleep mode**"""
+
+sleep = df[ (df['energy_%']<50) & (df['speechiness_%']<20 ) & (df['bpm']<80) ]
+to_sleep = sleep.sort_values(by = ['energy_%' , 'speechiness_%' , 'bpm'] , ascending=[True , True, True]).head(10)[['artist(s)_name', 'track_name']]
+print(to_sleep)
+
 """# **Monthly Trends**
 
 **Monthly releases**
@@ -118,8 +206,6 @@ romance.nlargest(10,(['energy_%' , 'valence_%']) )[['artist(s)_name' , 'track_na
 #Number of releases in each month
 monthly_releases = df.groupby('released_month').size()
 monthly_releases
-
-import matplotlib.pyplot as plt
 
 month_releases_g = df.released_month.value_counts()
 plt.bar(month_releases_g.index , month_releases_g, color="green")
@@ -144,7 +230,6 @@ plt.title('Monthly streams ')
 plt.show()
 
 #most successful release month
-import seaborn as sns
 
 month_stats = df.groupby('released_month').agg(
     releases=('track_name', 'count'),
