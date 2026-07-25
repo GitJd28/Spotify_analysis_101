@@ -229,7 +229,7 @@ plt.xlabel('Month')
 plt.title('Monthly streams ')
 plt.show()
 
-#most successful release month
+"""**Most Successful release month**"""
 
 month_stats = df.groupby('released_month').agg(
     releases=('track_name', 'count'),
@@ -246,6 +246,14 @@ sns.barplot(data=month_stats, x='released_month', y='avg_streams', ax=ax[1])
 ax[1].set_title('Average Streams by Release Month')
 
 plt.show()
+
+"""**Festive favourites** \
+12–1 → Festive Favourites (Winter)\
+2–3 → Love & Early Spring\
+4–5 → Spring Celebrations\
+6–8 → Summer Festivals\
+9–11 → Autumn & Harvest\
+"""
 
 
 
