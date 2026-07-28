@@ -267,7 +267,29 @@ plt.show()
 
 """# **Correlation Analysis**"""
 
+#Correlation graph
+# Correlation graph
+corr_matrix = df.corr(method='pearson', numeric_only=True)
+print(corr_matrix)
 
+# Set up the matplotlib figure layout
+plt.figure(figsize=(13, 8))
+import numpy as np
+
+# Generate a mask for the upper triangle
+mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
+
+# Draw the heatmap with a clean divergent color palette
+sns.heatmap(corr_matrix,
+            mask=mask,
+            annot=True,          # Show raw values in blocks
+            cmap='coolwarm',     # Blue for negative, Red for positive
+            vmin=-1, vmax=1,     # Force bounds to match coefficient range
+            fmt=".2f",
+            linewidths=0.5)
+
+plt.title('Dataset Correlation Analysis Matrix')
+plt.show()
 
 """# **Key insights**"""
 
