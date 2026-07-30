@@ -257,7 +257,54 @@ plt.show()
 
 
 
-"""# **Artist Analysis**"""
+"""# **Artist Analysis**
+
+Artist growth over time
+"""
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+
+# 1. Clean the streams column if needed and ensure it is numeric
+df["streams"] = pd.to_numeric(df["streams"], errors="coerce")
+
+# 2. Group by both artist and year to see growth over time
+artist_growth = (
+    df.groupby(["artist(s)_name", "released_year"])
+    .agg(
+        yearly_streams=("streams", "sum"),
+        release_count=("track_name", "count"),
+    )
+    .reset_index()
+)
+
+# 3. Filter for specific top artists to keep the graph clean
+# Example: Selection of a few artists to look at
+target_artists = ["Taylor Swift", "The Weeknd", "Bad Bunny"]
+filtered_growth = artist_growth[
+    artist_growth["artist(s)_name"].isin(target_artists)
+]
+
+# 4. Create the time-series graph
+plt.figure(figsize=(12, 6))
+sns.lineplot(
+    data=filtered_growth,
+    x="released_year",
+    y="yearly_streams",
+    hue="artist(s)_name",
+    marker="o",
+)
+
+# Format the chart
+plt.title("Artist Growth Over Time (Total Yearly Streams)", fontsize=14)
+plt.xlabel("Released Year", fontsize=12)
+plt.ylabel("Total Streams", fontsize=12)
+plt.grid(True, linestyle="--", alpha=0.6)
+plt.legend(title="Artists")
+
+# Show the plot
+plt.show()
 
 
 
