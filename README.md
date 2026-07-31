@@ -62,9 +62,9 @@ spotify-analysis/
 ---
 
 ### ⏳ Phase 2 — Statistical Analysis
-- [ ] Correlation analysis between streams and audio features
+- [X] Correlation analysis between streams and audio features
 - [ ] Hypothesis testing
-- [ ] Outlier detection
+- [X] Outlier detection
 - [ ] Feature relationship analysis
 
 ---
