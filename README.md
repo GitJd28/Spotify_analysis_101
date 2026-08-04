@@ -1,4 +1,4 @@
-# 🎵 Spotify Most Streamed Songs of 2023 — Analysis
+# 🎵 Spotify Most Streamed Songs of 2023 : Analysis
 
 An exploratory data analysis of Spotify's most-streamed songs of 2023, built to understand what actually drives a track's popularity — is it the artist, the release timing, the "vibe" of the song, or something else entirely?
 
@@ -25,13 +25,13 @@ I wanted a dataset that was fun to poke at but still meaty enough to practice re
 
 **Feature engineering & "Spotify Wrapped"-style insights**
 Started by mapping out what each audio feature (bpm, key, mode, danceability, valence, energy, acousticness, instrumentalness, liveness, speechiness) actually represents, then used combinations of them to define listening "moods":
-- **Top songs & artist of the year** — which tracks and artists racked up the most streams in 2023
-- **Best collab of 2023** — filtering to multi-artist tracks (`artist_count >= 2`) and ranking by streams
-- **Party score** — a combined `danceability_% + energy_%` metric to surface genuine dance-party tracks (both features above 85)
-- **Workout favorites** — high-energy tracks (`energy_% > 90`)
-- **Most romantic songs** — high valence, low energy, to capture the mellower, feel-good end of the spectrum
-- **Chill vibes** — low energy, high instrumentalness, high acousticness
-- **Sleep mode** — low energy, low speechiness, low bpm
+- **Top songs & artist of the year** - which tracks and artists racked up the most streams in 2023
+- **Best collab of 2023** - filtering to multi-artist tracks (`artist_count >= 2`) and ranking by streams
+- **Party score** - a combined `danceability_% + energy_%` metric to surface genuine dance-party tracks (both features above 85)
+- **Workout favorites** - high-energy tracks (`energy_% > 90`)
+- **Most romantic songs** - high valence, low energy, to capture the mellower, feel-good end of the spectrum
+- **Chill vibes** - low energy, high instrumentalness, high acousticness
+- **Sleep mode** - low energy, low speechiness, low bpm
 
 **Monthly trends**
 - Release volume by month, and whether release timing correlates with total or average streams
