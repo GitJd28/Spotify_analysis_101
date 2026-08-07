@@ -310,7 +310,15 @@ plt.show()
 
 """# **Audio Feature analysis**"""
 
+features = ['danceability_%', 'energy_%', 'valence_%', 'acousticness_%',
+            'instrumentalness_%', 'liveness_%', 'speechiness_%', 'bpm']
 
+fig, axes = plt.subplots(2, 4, figsize=(18, 8))
+for ax, col in zip(axes.flatten(), features):
+    sns.histplot(df[col], bins=20, ax=ax, color='green')
+    ax.set_title(col)
+plt.tight_layout()
+plt.show()
 
 """# **Correlation Analysis**"""
 
