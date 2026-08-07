@@ -40,6 +40,9 @@ Started by mapping out what each audio feature (bpm, key, mode, danceability, va
 **Correlation analysis**
 - Built a full Pearson correlation matrix across all numeric features and visualized it as a masked heatmap (upper triangle hidden to cut the clutter), as a first pass at seeing which audio features actually move together before digging deeper in Phase 2
 
+**Audio Feature Analysis** 
+- First pass at how key audio features (starting with danceability and acousticness) are distributed across the dataset — laying the groundwork before connecting these distributions back to streams and the mood categories above. 
+
 ## Repository structure
 ```text
 spotify-analysis/
